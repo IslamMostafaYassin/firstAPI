@@ -14,7 +14,6 @@ const userSchema=new mongoose.Schema({
 	hashedPassword:{
 		type:String,
 		required:true,
-		unique:true
 	},
 })
 
