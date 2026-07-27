@@ -1,17 +1,11 @@
 const User=require('../models/user.model.js')
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
+const AppError=require("../utils/AppError.js")
 
 const register=async(req,res,next)=>{
 	try{
 		const {username,email,password}=req.body
-		const existingUser=await User.findOne({email})
-		if(existingUser){
-			return res.status(400).send({
-				success:false,
-				message:"User already exists"
-			})
-		}
 		const hashedPassword=await bcrypt.hash(password,10)
 		const user=await User.create({
 			username,
@@ -37,5 +31,7 @@ const register=async(req,res,next)=>{
 		next(err)
 	}
 }
+
+
 
 module.exports={register}
