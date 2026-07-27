@@ -13,7 +13,6 @@ app.use(express.json())
 app.get("/api/v1",(req,res)=>{
 	res.send("welcome to my firstAPI!")
 })
-//test comment
 
 const PORT=process.env.PORT
 
