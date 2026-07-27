@@ -10,5 +10,10 @@ const registerSchema=z.object({
 	password:z.string().min(8,"password must be at least 8 characters long")
 })
 
+const loginSchema=z.object({
+	email:z.string().trim().toLowerCase().email("Invalid email address"),
+	password:z.string().min(1,"password is required")
+})
+
 
 module.exports={registerSchema}
