@@ -22,7 +22,7 @@ const register=async(req,res,next)=>{
 		user.password=undefined
 		return res.status(201).send({
 			success:true,
-			message:"user created successfully!",
+			message:"registeration successful",
 			token,
 			user
 		})
@@ -32,6 +32,33 @@ const register=async(req,res,next)=>{
 	}
 }
 
+const login=async(req,res,next)=>{
+	try{
+		const {email,password}=req.body
+		const existingUser=await User.findOne({email})
+		if (!existingUser){
+			throw new AppError(400,"invalid credentials")
+		}
+		const validPassword=bcrypt.compare(password,existingUser.password)
+		if (!validPassword){
+			throw new AppError(400,"invalid credentials")
+		}
+		const token=jwt.sign({
+			userId:existingUser.id,
+			role:existingUser.role
+		},process.env.JWT_SECRET,{
+			expiresIn:'3m'
+		})
+		return res.send({
+			success:true,
+			message:"login successful",
+			token
+		})
+	}catch(err){
+		next(err)
+	}
 
 
-module.exports={register}
+}
+
+module.exports={register,login}

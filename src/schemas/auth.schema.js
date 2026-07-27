@@ -16,4 +16,4 @@ const loginSchema=z.object({
 })
 
 
-module.exports={registerSchema}
+module.exports={registerSchema,loginSchema}
