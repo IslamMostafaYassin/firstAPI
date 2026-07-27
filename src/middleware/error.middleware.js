@@ -1,12 +1,22 @@
-const {ZodError}=require("zod")
+const zod=require("zod")
 const mongoose=require("mongoose")
 const AppError=require("../utils/AppError.js")
+const jwt=require("jsonwebtoken")
 
 const globalErrorHandler=(err,req,res,next)=>{
 	console.log(err)
 	let message="Internal server error"
 	let statusCode=500
-	if (err instanceof ZodError){
+	if (err instanceof jwt.JsonWebTokenError){
+		statusCode=401
+		message="invalid token"
+
+		return res.status(statusCode).send({
+			success:false,
+			message
+		})
+	}
+	if (err instanceof zod.ZodError){
 		statusCode=400
 		if (err.errors[0])
 			message=err.errors[0].message

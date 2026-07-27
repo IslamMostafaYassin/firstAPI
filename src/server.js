@@ -2,16 +2,19 @@ const dotenv=require("dotenv")
 dotenv.config()
 const express=require("express")
 const cors=require("cors")
+const cookieParser=require("cookie-parser")
 const connectDB=require("./config/db.config.js")
 const globalErrorHandler=require("./middleware/error.middleware.js")
 const authRouter=require("./routes/auth.routes.js")
 const User=require("./models/user.model.js")
+
 
 const app=express()
 connectDB()
 
 app.use(cors())
 app.use(express.json())
+app.use(cookieParser())
 
 app.get("/api/v1",(req,res)=>{
 	res.send("welcome to my firstAPI!")
